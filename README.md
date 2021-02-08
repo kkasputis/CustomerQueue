@@ -4,7 +4,15 @@ This is a customer queue system.
 
 If you want to pull this app and run on your server and want to use email services you will have to enter your email data in application.properties file and update SERVICE_MAIL in MailService. Sorry, I don't want to share email password :)
 
-When the app is launched admin user is created. You can add and remove specialists with admin via admin page. ADMIN credentials: username: admin; password: 123;
+When the app is launched admin user is created. You can add and remove specialists with admin via admin page. 
+
+ADMIN credentials: 
+
+username: admin; 
+
+password: 123;
+
+
 When creating a new SPECIALIST you need to provide not only his username, but his name, that will be visible to customers. Also, you need to provide his working hours and usual service time in minutes for system to be able claculte ticket times.
 
 Anyone can book a ticket and see tickets information(specialist name, ticket code, time of meeting, time left or if specialist is ready to see him) providing a ticket code. Ajax checks if specialist is ready to see customer every 5 seconds.
