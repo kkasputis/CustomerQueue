@@ -2,7 +2,7 @@
 
 This is a customer queue system. 
 
-If you want to pull this app and run on your server and want to use email services you will have to in application.properties file enter your email data and update SERVICE_MAIL in MailService. Sorry, I don't want to share email password :)
+If you want to pull this app and run on your server and want to use email services you will have to enter your email data in application.properties file and update SERVICE_MAIL in MailService. Sorry, I don't want to share email password :)
 
 When the app is launched admin user is created. You can add and remove specialists with admin via admin page. ADMIN credentials: username: admin; password: 123;
 
