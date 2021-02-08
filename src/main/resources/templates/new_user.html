@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet" href="styles.css">
+<title>New User</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block>  
+    <fieldset class="custom-fieldset">
+    <legend>New User</legend>
+	<form th:object="${newCustomer}" method="post">
+		<div>Username</div>
+		<input th:field="*{userName}" type="text" th:required="required" oninput="checkUsername(this)"
+			id="username" placeholder="Username" /> 
+			<div style="color: red; margin: 5px;" id="usernameSpan"></div>
+
+		<div>Email</div>
+		<input th:field="*{email}" type="email" id="email"
+			th:required="required" placeholder="Email" oninput="checkEmail(this)"/>
+			 <div style="color: red; margin: 5px;" id="emailSpan"></div>
+
+		<fieldset style="border-radius: 10px; margin-top: 10px;">
+		
+			<div>
+				<div>Password</div>
+				<input name="password" id="password" th:field="*{encryptedPassword}"
+					type="password" th:required="required" placeholder="Password" />
+
+			</div>
+			<div>
+				<div>Repeat password</div>
+				<input name="password_confirm" id="password_confirm" type="password"
+					required placeholder="Repeat password" oninput="check(this)"
+					th:required="required" />
+
+			</div>
+		</fieldset>
+
+		<input style="margin-top:10px" type="submit" value="Register"/>
+	</form>
+	</fieldset>
+</body>
+<script src="/form-script.js"></script>
+</html>

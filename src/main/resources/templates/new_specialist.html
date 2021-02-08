@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<title>Add New Specialist</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block>  
+    <fieldset class="custom-fieldset"><legend></legend>
+	<form th:object="${newSpecialist}" method="post">
+		<div>Specialist username</div>
+		<input th:field="*{userName}" type="text" th:required="required" id="username" oninput="checkUsername(this)"
+			placeholder="Username" /> 
+			<div style="color: red; margin: 5px;" id="usernameSpan"></div>
+		<div>Specialist name</div>
+		<input th:field="*{name}" type="text" th:required="required"
+			placeholder="Name" />
+
+
+
+		<fieldset style="border-radius: 10px; margin-top: 10px;">
+			<legend>Password</legend>
+			<div>
+				<div>Password</div>
+				<input name="password" id="password" th:field="*{encryptedPassword}"
+					type="password" th:required="required" placeholder="Password" />
+
+			</div>
+			<div>
+				<div>Repeat password</div>
+				<input name="password_confirm" id="password_confirm" type="password"
+					required placeholder="Repeat password" oninput="check(this)"
+					th:required="required" />
+
+			</div>
+		</fieldset>
+		<fieldset style="border-radius: 10px; margin-top: 10px;">
+			<legend>Working hours</legend>
+			<div>
+				<div>From</div>
+				<input name="timeFrom" id="timeFrom" th:field="*{workHoursFrom}"
+					type="time" th:required="required" placeholder="8:00" value="8:00" />
+
+			</div>
+			<div>
+				<div>To</div>
+				<input name="TimeTo" id="timeTo" type="time"
+					th:field="*{workHoursTo}" placeholder="17:00" value="17:00"
+					th:required="required" />
+
+			</div>
+		</fieldset>
+		<div>
+			<div>Usual service time</div>
+			<input name="usualServiceTime" id="ususalTime" type="number"
+				th:field="*{usualServiceTime}" value="1" th:required="required" />
+			minutes.
+
+		</div>
+		<input type="submit" value="Create"/>
+	</form>
+</fieldset>
+</body>
+<script src="/form-script.js"></script>
+</html>

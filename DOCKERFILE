@@ -1,0 +1,5 @@
+FROM openjdk:11-jre-slim
+COPY target/customer-queue.war /usr/app/
+WORKDIR /usr/app
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "customer-queue.war"]

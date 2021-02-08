@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>New Ticket</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block>  
+ <fieldset class=custom-fieldset>
+ <legend>Book meeting with specialist</legend>
+<form method="post">
+Select specialist
+<select name="specialist">
+<option th:each="specialist: ${specialistList}" th:text="${specialist.name}" th:value="${specialist.userName}"></option>
+</select>
+<div sec:authorize="!hasRole('ROLE_USER')">Enter your email
+<input th:required="required" name="email"  type="email" placeholder="Email"/>
+<p>Please, enter a valid email address. </p> <p>You will be informed to your email with your ticket code, appointment  start or cancelation. </p>
+</div>
+<input type="submit" value="Get Ticket"/>
+</form>
+</fieldset>   
+</body>
+</html>

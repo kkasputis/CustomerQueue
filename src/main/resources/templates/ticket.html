@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="modal-style.css">
+<title>Queue Ticket</title>
+</head>
+<body>
+	<th:block th:include="menu"></th:block>
+	
+	
+	<div th:if="${ticket != null}">
+	<fieldset class="custom-fieldset">
+	<legend>Ticket information</legend>
+	<div>Specialist:</div>
+	<div class="biggerFonts" th:text="${ticket.specialist.name}"></div>
+	<div>Your visit time:</div>
+	<div class="biggerFonts" th:text="${#temporals.format(ticket.time, 'yyyy-MM-dd HH:mm')}"></div>
+	<div>Your Ticket number:</div>
+	<div class="biggerFonts" th:text="${ticket.ticketCode}"></div>
+	<div>Time left:</div>
+	<div  class="biggerFonts" style="color: #999;" id="timeleft"></div>
+	</fieldset>
+		<fieldset class="custom-fieldset">
+	<legend>Cancel Ticket</legend>
+	<div sec:authorize="!hasRole('ROLE_USER')">
+	<p>Input your e-mail to confirm that this is your queue ticket or login to the system.</p>
+	<input th:required="required" type="email" id="email"/>
+	<span style="color: red; margin: 5px;" id="emailSpan"></span>
+	</div>
+		<button
+			th:onClick="@{'cancelConfirmation(' + ${ticket.ticketCode} + ')'}">Cancel
+			ticket</button>
+	</fieldset>
+	</div>
+	<div th:if="${errorMessage != null}">
+	<fieldset class="custom-fieldset">
+	<legend>Someting went wrong...</legend>
+	<div th:text="${errorMessage}"></div>
+	</fieldset>
+	</div>
+	<div th:if="${ticket == null}">
+	<fieldset class="custom-fieldset">
+	<legend>Ticket Not Found</legend>
+	<div>Could not find ticket with <b style="color:red" th:text="${badCode}"></b> ticket code...</div>
+
+	</fieldset>
+	</div>
+    <th:block th:include="modal"></th:block>  
+
+</body>
+<script src="/modal-script.js"></script>
+<script th:if="${ticket != null}" th:inline="javascript">
+
+var countDownDate = new Date([[${ticket.time}]]).getTime();
+refreshTime();
+checkIfActive();
+var timeLeftInterval = setInterval(function() {
+	refreshTime();
+}, 1000);
+
+function refreshTime() {
+	  var now = new Date().getTime();
+	  var distance = countDownDate - now;
+	  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+	  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+	   document.getElementById("timeleft").innerHTML ="";
+	  if (days > 0) {
+		  document.getElementById("timeleft").innerHTML = days + "d ";
+	  }
+	  document.getElementById("timeleft").innerHTML = document.getElementById("timeleft").innerText + hours + "h "
+	  + minutes + "m " + seconds + "s ";
+
+	  if (distance < 0) {
+	    clearInterval(timeLeftInterval);
+	    document.getElementById("timeleft").innerHTML = "Specialist will soon call your number. Please be patient.";
+	  }
+	};
+	
+	
+	var checkActive = setInterval(function() {	
+		checkIfActive();
+		}, 5000);
+	
+function checkIfActive() {
+	$.ajax({ 
+	   type : "GET",
+	   url : "/ticket/checkactive?code=" + [[${ticket.ticketCode}]],
+	   success: function(data){
+	   		if(data === true) {
+	    		clearInterval(timeLeftInterval);
+	    		clearInterval(checkActive);
+	    		document.getElementById("timeleft").innerHTML = "Specialist is ready to see you!";
+	    		document.getElementById("timeleft").style.color = "green";
+	    		}
+	         }
+	    });
+}
+	
+
+</script>
+
+</html>

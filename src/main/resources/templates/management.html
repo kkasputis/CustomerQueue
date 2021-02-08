@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<title>Custumer management</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block>  
+    <fieldset class="custom-fieldset">
+    <legend>Your appointment schedule</legend>
+
+<table id="custumerSchedule">
+  <tr>
+    <th>Ticket code</th>
+    <th>Scheduled time</th>
+     <th>Status</th>
+     <th>Action</th>
+
+  </tr>
+
+  <tr th:each="ticket: ${ticketList}">
+    <td th:id="@{'ticket' + ${ticket.ticketCode}}" class="ticketCode" th:text="${ticket.ticketCode}"></td>
+   
+     <td th:text="${#temporals.format(ticket.time, 'MM-dd HH:mm')}"></td>
+<td class="ticketStatus" th:text="${ticket.active} ? 'ACTIVE' : 'PENDING'"></td> 
+    <td><button  class="startMeeting" th:onclick="@{'startMeeting(' + ${ticket.ticketCode} + ')'}">Start meeting</button>
+    <button class="cancelMeeting" th:onclick="@{'cancelMeeting(' + ${ticket.ticketCode} + ')'}">Cancel meeting</button></td>
+
+  </tr>
+  
+  </table>
+      </fieldset>
+</body>
+<script>
+var ticketStatusList = document.getElementsByClassName("ticketStatus").innerText;
+checkForActice();
+
+function checkForActice() {
+	var inputs = $(".ticketStatus");
+	for(var i = 0; i < inputs.length; i++){
+		if (inputs[i].innerText === 'ACTIVE') {
+			var ticketId = inputs[i].parentElement.getElementsByClassName("ticketCode")[0].innerText;
+			inputs[i].parentElement.getElementsByClassName("startMeeting")[0].innerHTML = 'End Meeting';
+			inputs[i].parentElement.getElementsByClassName("startMeeting")[0].setAttribute( "onClick", "javascript: endMeeting(" + ticketId + ");" );
+			inputs[i].parentElement.getElementsByClassName("ticketStatus")[0].innerHTML = 'ACTIVE';
+			inputs[i].parentElement.getElementsByClassName("cancelMeeting")[0].disabled = true;
+			disablePending();
+		}
+	}
+	};
+
+function disablePending() {
+var inputs = $(".ticketStatus");
+for(var i = 0; i < inputs.length; i++){
+	if (inputs[i].innerText === 'PENDING') {
+		inputs[i].parentElement.getElementsByClassName("startMeeting")[0].disabled = true;
+	}
+}
+};
+
+function enablePending() {
+	var inputs = $(".ticketStatus");
+	for(var i = 0; i < inputs.length; i++){
+		if (inputs[i].innerText === 'PENDING') {
+			inputs[i].parentElement.getElementsByClassName("startMeeting")[0].disabled = false;
+		}
+	}
+	};
+	
+function startMeeting(id){
+	var meetDokument = document.getElementById('ticket' +id)
+	 $.ajax({ 
+         type : "GET",
+         url : "/specialist/activate?code=" + id,
+      
+         success: function(data){
+
+    			if(data === true) {
+    				meetDokument.parentElement.getElementsByClassName("startMeeting")[0].innerHTML = 'End Meeting';
+    				meetDokument.parentElement.getElementsByClassName("cancelMeeting")[0].disabled = true;
+    				meetDokument.parentElement.getElementsByClassName("startMeeting")[0].setAttribute( "onClick", "javascript: endMeeting(" + id +  ");" );
+    				meetDokument.parentElement.getElementsByClassName("ticketStatus")[0].innerHTML = 'ACTIVE';
+    				disablePending();
+    			}
+         }
+     
+     });
+
+};
+
+function endMeeting(id){
+	var meetDokument = document.getElementById('ticket' +id)
+	 $.ajax({ 
+         type : "GET",
+         url : "/specialist/endmeeting",
+      
+         success: function(data){
+
+    			if(data === true) {
+    				meetDokument.parentElement.getElementsByClassName("startMeeting")[0].innerHTML = 'Start meeting';
+    				meetDokument.parentElement.getElementsByClassName("startMeeting")[0].disabled = true;
+    				meetDokument.parentElement.getElementsByClassName("cancelMeeting")[0].disabled = true;
+    				meetDokument.parentElement.getElementsByClassName("ticketStatus")[0].innerHTML = 'ENDED';
+    				enablePending();
+    			}
+         }
+     
+     });
+
+};
+
+function cancelMeeting(id){
+	var meetDokument = document.getElementById('ticket' +id)
+	 $.ajax({ 
+         type : "GET",
+         url : "/specialist/cancel?code=" + id,
+      
+         success: function(data){
+
+    			if(data === true) {
+    				meetDokument.parentElement.getElementsByClassName("startMeeting")[0].disabled = true;
+    				meetDokument.parentElement.getElementsByClassName("ticketStatus")[0].innerHTML = 'CANCELED';
+    				meetDokument.parentElement.getElementsByClassName("cancelMeeting")[0].disabled = true;
+
+    			}
+         }
+     
+     });
+
+};
+</script>
+</html>

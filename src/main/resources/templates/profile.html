@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="modal-style.css">
+<title>Profile</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block> 
+    <fieldset class="custom-fieldset" th:if="${tickets != null}">
+    <legend>Your Queue Tickets</legend>
+    <table  id="custumerSchedule">
+  <tr>
+    <th>Ticket code</th>
+
+    <th>Specialist name</th>
+     <th>Time</th>
+
+  
+  </tr>
+  <tr style="cursor: pointer;" th:each="ticket : ${tickets}" th:onclick="@{'window.location=\'ticket?code=' + ${ticket.ticketCode} + '\';'}">
+    <td th:text="${ticket.ticketCode}"></td>
+   
+     <td th:text="${ticket.specialist.name}"></td>
+      <td th:text="${#temporals.format(ticket.time, 'yyyy-MM-dd HH:mm')}"></td>
+
+  </tr>
+  
+  </table>
+    
+    
+    </fieldset>
+    
+    <fieldset class="custom-fieldset">
+    <legend>Change Password</legend>
+     <th:block th:include="changePassword"></th:block>
+    </fieldset>
+</body>
+</html>

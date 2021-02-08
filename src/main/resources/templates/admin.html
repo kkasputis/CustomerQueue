@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<link rel="stylesheet" href="modal-style.css">
+<title>Administrator page</title>
+</head>
+<body>
+    <th:block th:include="menu"></th:block> 
+    <fieldset class="custom-fieldset">
+    <legend>Specialist list</legend>
+
+<table>
+  <tr>
+    <th>Specialist name</th>
+
+    <th>Usual service time</th>
+     <th>Working hours from</th>
+          <th>Working hours to</th>
+     <th>Remove specialist</th>
+  
+  </tr>
+
+  <tr th:each="specialist: ${specialistList}">
+    <td th:id="@{'specialist' + ${specialist.userId}}" th:text="${specialist.name}"></td>
+   
+     <td th:text="${specialist.usualServiceTime}"></td>
+      <td th:text="${specialist.workHoursFrom}"></td>
+            <td th:text="${specialist.workHoursTo}"></td>
+    <td><button  class="button" th:onclick="@{'deleteSpecialistConfirm(' + ${specialist.userId} + ')'}">Remove specialist</button></td>
+
+  </tr>
+  
+  </table>
+  </fieldset> 
+  <a class="usermenubutton" style="margin: auto; text-align: center; display: block; width: 150px;" href="/admin/newspecialist">Add specialist</a>
+    <th:block th:include="modal"></th:block>  
+  
+  
+  
+  
+</body>
+
+<script src="/modal-script.js"></script>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointmen Queue Ticket System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <th:block th:include="menu"></th:block>  
+    <div style="font-size: xxx-large; margin-top: 20px;" class="center">Queue Ticket Manager</div>
+    <div class="center">
+    <fieldset class="custom-fieldset">
+    <legend>Find my ticket</legend>
+    <div class="center">Enter your ticket code:</div>
+    <div class="center">
+    <input type="text" id="ticketCode">
+    <div id="alertEnterNumber"></div>
+    </div>
+    <div>
+    <button class="center" onClick="goToTicketInfo()">Search</button>
+    </div>
+    </fieldset>
+    <button class="bookticket center" onClick="window.location.href='/newticket'">Book Ticket</button>
+    </div>
+</body>
+<script>
+function goToTicketInfo() {
+	var code = document.getElementById("ticketCode").value;
+	if (code != "") {
+		window.location.href="/ticket?code=" + code;
+	}
+	else {
+		document.getElementById("alertEnterNumber").innerHTML = "Enter ticket code.";
+		document.getElementById("alertEnterNumber").style.color = "red";
+	}
+}
+</script>
+<style>
+
+</style>
+</html>

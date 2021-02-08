@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<link rel="stylesheet" href="/styles.css">
+
+<div class="hamburgerContainer" onclick="showMenu(this)">
+  <div class="bar1"></div>
+  <div class="bar2"></div>
+  <div class="bar3"></div>
+</div>
+	<ul id="topMenu" class="topMenu">
+		<li class="listItem"><a href="../">Home</a></li>
+		<li class="listItem"><a href="/newticket">New Queue Ticket</a></li>
+		<li class="listItem" sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">Admin page</a></li>
+		<li class="listItem" sec:authorize="hasRole('ROLE_SPECIALIST')"><a href="/specialist">Customer management</a></li>
+		<li class="listItem" sec:authorize="isAuthenticated()"><a href="/displayboard">Display Board</a></li>
+		<li class="listItem" sec:authorize="isAuthenticated()"><a href="/profile">Profile</a></li>
+		<li class="listItem" sec:authorize="isAnonymous()"><a href="/newuser">Register</a></li>
+		<li class="listItem login" sec:authorize="isAnonymous()"><a
+			href="/login">Log in</a></li>
+		<li class="listItem login" sec:authorize="isAuthenticated()" ><a href="/logout">Logout</a></li>
+	</ul>
+
+
+<style>
+
+</style>
+<script>
+function showMenu(x) {
+	  x.classList.toggle("change");
+	  document.getElementById("topMenu").classList.toggle("showMenu");
+	}
+</script>
+</html>

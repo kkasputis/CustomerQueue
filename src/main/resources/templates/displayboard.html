@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<title>Display Board</title>
+</head>
+<body>
+	<th:block th:include="menu"></th:block>
+	<fieldset class="custom-fieldset">
+		<legend>Display Board</legend>
+		<div id="board"></div>
+	</fieldset>
+</body>
+<script>
+	loadBoard();
+	var boarInterval = setInterval(loadBoard(), 5000);
+
+	function loadBoard() {
+
+		$.ajax({
+			type : "GET",
+			url : "/displayboard/board",
+			success : function(response) {
+
+				$("#board").html(response);
+
+			}
+		});
+	}
+</script>
+</html>

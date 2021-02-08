@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Login</title>
+</head>
+
+ <body>
+    <th:block th:include="menu"></th:block>  
+
+
+   <div style="text-align:center; margin:auto;" class="login-menu">
+   <fieldset class="custom-fieldset">
+   <legend>Login</legend>
+      <h1  class="login-menu">Login</h1>
+       
+      <!-- /login?error=true -->
+      <div th:if="${#request.getParameter('error') == 'true'}"
+            style="color:red;margin:10px 0px;"  class="login-menu">
+         Could not login
+         <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+            th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}"  class="login-menu">
+                Static summary
+         </span>
+            
+      </div>
+      
+      <h3  class="login-menu" >Enter your username and password:</h3>
+      <form name='f' th:action="@{/j_spring_security_check}" method='POST'  class="login-menu">
+         <table>
+            <tr>
+               <td>Username:</td>
+               <td><input class="custom-input" type='text' name='username' value=''></td>
+            </tr>
+            <tr>
+               <td>Password:</td>
+               <td><input class="custom-input" type='password' name='password' /></td>
+            </tr>
+            <tr>
+               <td>Remember me?</td>
+               <td><input type="checkbox" name="remember-me" /></td>
+            </tr>            
+           
+       
+           
+         </table>
+                 <input class="menubutton" name="submit" type="submit" value="Login"/>
+      </form>
+       </fieldset>
+      <br>
+      <a class="usermenubutton" href="/newuser">Register</a>
+      <br>
+      <button class="forgotpassword" style="margin-top: 10px;" onClick="showPassReminder();">Forgot password?</button>
+     </div>  
+<div id="remindPassword">
+ <fieldset class="custom-fieldset">
+   <legend>Forgot password?</legend>
+Enter your username
+<input id="remindUsername" type="text">
+<p>You will receive new password to your email. </p>
+<span id="newPasswordSent"></span>
+<button style="margin:auto;" onClick="generateNewPassWord()">Send</button>
+</fieldset>
+
+</div>
+   </body>
+
+     <style>
+
+
+.menubutton {
+ background-color: #E8E8E8; 
+  border: none;
+  color: black;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-bottom: 6px;
+}
+.menubutton:hover {
+ background-color: #737373;
+   color: #E8E8E8;
+}
+
+
+.custom-input {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+
+}
+
+ </style> 
+<script>
+var showPassRemindForm = document.getElementById("remindPassword");
+showPassRemindForm.style.display = "none";
+function showPassReminder() {
+
+	  if (showPassRemindForm.style.display === "none") {
+		  showPassRemindForm.style.display = "block";
+	  } else {
+		  showPassRemindForm.style.display = "none";
+	  }
+	
+};
+function generateNewPassWord() {
+	var username = document.getElementById("remindUsername").value;
+	$.ajax({
+		type : "GET",
+		url : "/changepassword?username=" + username,
+		success : function(data) {
+				document.getElementById('newPasswordSent').innerHTML = "New password was sent to your email.";
+		}
+
+	 });
+};
+</script>
+</html>

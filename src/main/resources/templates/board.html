@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<fieldset>
+<legend>Current meetings</legend>
+
+<table>
+
+  <tr>
+    <th>Ticket code</th>
+    <th>Specialist</th>
+  </tr>
+  <tr th:each="ticket: ${activeTickets}" >
+    <td  th:text="${ticket.ticketCode}"></td>
+        <td  th:text="${ticket.specialist.name}"></td>
+        </tr>
+  </table>
+  <div th:if="${#lists.isEmpty(activeTickets)}">No active tickets at the moment</div>
+  </fieldset>
+    <table  class="center">
+  <tr>
+    <th>Upcoming Tickets</th>
+  </tr>
+    <tr th:each="ticket: ${nextTickets}">
+    <td th:text="${ticket.ticketCode}"></td>
+
+  </tr>
+  </table>
+</html>
