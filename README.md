@@ -6,9 +6,9 @@ If you want to pull this app and run on your server and want to use email servic
 
 When the app is launched admin user is created. You can add and remove specialists with admin via admin page. ADMIN credentials: username: admin; password: 123;
 
-Anyone can book a ticket and see tickets information(specialist name, ticket code, time of meeting, time left or if specialist is ready to see him) providing ticket code. Ajax checks if specialist is ready to see customer every 5 seconds.
+Anyone can book a ticket and see tickets information(specialist name, ticket code, time of meeting, time left or if specialist is ready to see him) providing a ticket code. Ajax checks if specialist is ready to see customer every 5 seconds.
 
-Any registered user can see "Display Board" which show active meetings and 5 upcoming meetings. Board refreshes information every 5 seconds using ajax. Also, any registered user can change password in "Profile" section.
+Any registered user can see "Display Board" which shows active meetings and 5 upcoming meetings. Board refreshes information every 5 seconds using ajax. Also, any registered user can change password in "Profile" section.
 
 If you are logged in as USER you can also see all your tickets in "Profile" section.
 
@@ -23,4 +23,5 @@ If USER forgot his password, he can ask for a new password in "Login" page. Appl
 Applying for a ticket: If you are logged in as a USER, just choose specialist from a drop-down selection and press "Get ticket". The system will use your registered email. 
 Otherwise you will have to provide an email. If you have, or will register an account later with provided email, you will be able to see it in your profile page.
 
-Ticket time: all specialists have their working hours, so you can not get a meeting with them when they are not working. System checks tikcet queues for selected specialist and selects nearest available time. System also checks if there were canceled tickets.
+Ticket time: all specialists have their working hours, so you can not get a meeting with them when they are not working. System checks ticket queues for selected specialist and selects nearest available time. System also checks if there were canceled tickets.
+
