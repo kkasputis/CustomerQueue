@@ -8,9 +8,9 @@ When the app is launched admin user is created. You can add and remove specialis
 
 ADMIN credentials: 
 
-username: admin; 
+username: admin
 
-password: 123;
+password: 123
 
 
 When creating a new SPECIALIST you need to provide not only his username, but his name, that will be visible to customers. Also, you need to provide his working hours and usual service time in minutes for system to be able claculte ticket times.
