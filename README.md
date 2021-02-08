@@ -34,3 +34,4 @@ Otherwise you will have to provide an email. If you have, or will register an ac
 
 Ticket time: all specialists have their working hours, so you can not get a meeting with them when they are not working. System checks ticket queues for selected specialist and selects nearest available time. System also checks if there were canceled tickets.
 
+Working application URL: https://customer-queue.herokuapp.com
